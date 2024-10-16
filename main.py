@@ -9,6 +9,7 @@ import pip._vendor.requests as requests
 from bs4 import BeautifulSoup
 from run import main
 from fix import main2
+import time
 
 
 def row_exists(sheet, detail_link):
@@ -44,24 +45,23 @@ soup = BeautifulSoup(r_html, 'html.parser')
 links = []
 for link in soup.find_all('a'):
     href = link.get('href')
-    #only show urls in this format use regex and dont use string matching /WA/Bellevue/4519-Lake-Heights-St-98006/home/416494
+    # Only show URLs in this format use regex and don't use string matching /WA/Bellevue/4519-Lake-Heights-St-98006/home/416494
     if href and "/home/" in href:
-        #add the urls to the list
+        # Add the URLs to the list
         full_url = "https://www.redfin.com" + href.replace(" ", "")
-
         links.append(full_url)
-        #full_url = "https://www.redfin.com" + link.get('herf').replace(" ", "")
-        #print (full_url)   
         
         if row_exists(sheet, full_url):
             print(f"Skipping {full_url}")
-            
-            
         else:
             print(f"Processing {full_url}")    
             try:
-                row=main2(full_url)
+                
+                row = main2(full_url)
+                sleep(5) 
                 if row is not None:
                     sheet.append_row(row)
+                # Pause execution for a short time to avoid overwhelming the server
+                 # Sleep for 1 second
             except Exception as e:
                 print(f"Failed to process {full_url}: {e}")
