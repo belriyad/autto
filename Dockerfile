@@ -39,4 +39,4 @@ ENV VIRTUAL_ENV=venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Run the application
-CMD ["python", "scrap.py"]
+CMD ["python", "main.py"]
