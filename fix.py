@@ -19,8 +19,8 @@ def main2(full_url):
     #options.add_argument('--headless')
     #options.add_argument('--disable-gpu')
     options.add_argument('--ignore-certificate-errors')
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-
+    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome ()
     # Open the webpage
     driver.get(full_url)
 
