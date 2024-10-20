@@ -32,7 +32,7 @@ for row in sheet.get_all_records():
     #sleep(10)
 
 
-url = 'https://www.redfin.com/city/1387/WA/Bellevue'
+url = 'https://www.redfin.com/city/15735/WA/Sammamish'
 #set browser to show as a chrome browser
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}  
 #connect to the website
