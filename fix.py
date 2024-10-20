@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
 import time
 import argparse
 from time import sleep, time
@@ -12,6 +14,9 @@ if __name__ == "__main__":
     parser.add_argument('--url', required=True, help='The URL to process')
     args = parser.parse_args()
     full_url = args.url
+options = webdriver.ChromeOptions()
+driver=webdriver.Remote ('http://192.168.1.252:4444/wd/hub', options=options)
+
 # Initialize the Chrome driver
 def main2(full_url):
     
@@ -20,7 +25,7 @@ def main2(full_url):
     #options.add_argument('--disable-gpu')
     options.add_argument('--ignore-certificate-errors')
     #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-    driver = webdriver.Chrome ()
+    #driver = webdriver.Chrome ()
     # Open the webpage
     driver.get(full_url)
 
