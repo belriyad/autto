@@ -1,9 +1,8 @@
 from datetime import datetime
+import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
 
 import time
 import argparse
@@ -14,16 +13,34 @@ if __name__ == "__main__":
     parser.add_argument('--url', required=True, help='The URL to process')
     args = parser.parse_args()
     full_url = args.url
-options = webdriver.ChromeOptions()
-driver=webdriver.Remote ('http://192.168.1.252:4444/wd/hub', options=options)
 
 # Initialize the Chrome driver
 def main2(full_url):
+    max_retries = 10
+    retry_delay = 5
+    selenium_host="http://192.168.1.252:4444/wd/hub"
+    driver = webdriver.Remote(
+    command_executor=selenium_host,
+    options=webdriver.ChromeOptions()
+)
+
     
-    options = webdriver.ChromeOptions()
+    for i in range(max_retries):
+        try:
+            response = requests.get(selenium_host)
+            if response.status_code == 200:
+                break
+        except requests.ConnectionError:
+            pass
+        print(f"Waiting for Selenium container... ({i+1}/{max_retries})")
+        time.sleep(retry_delay)
+    else:
+        raise Exception("Selenium container not ready after max retries")
+
+    #options = webdriver.ChromeOptions()
     #options.add_argument('--headless')
     #options.add_argument('--disable-gpu')
-    options.add_argument('--ignore-certificate-errors')
+    #options.add_argument('--ignore-certificate-errors')
     #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     #driver = webdriver.Chrome ()
     # Open the webpage
