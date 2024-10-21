@@ -27,7 +27,7 @@ for link in soup.find_all('a'):
    
         links.append(link.get('href'))
 
-        #print the url  
+        print (link.get('href')) 
    # print(link.get('href'))
 
 #sleep(50)
@@ -118,6 +118,7 @@ for link in links:
     full_url = "https://www.redfin.com" + link.replace(" ", "")
     if not row_exists(sheet, full_url):
         html_content = fetch_url(full_url)
+        print (html_content)
         if html_content  :
             soup = BeautifulSoup(html_content, 'html.parser')
             # Process the soup object as needed
@@ -186,13 +187,13 @@ for link in links:
             #    print(f"Skipping row due to missing data: {row}")
             #sheet.append_row(row)
         else:
-            print(f"Failed to retrieve content from {full_url} "+ random.choice(useragentarray) + " " + proxy)
+           ...# print(f"Failed to retrieve content from {full_url} "+ random.choice(useragentarray) + " " + proxy)
             
     else:
         print(f"Row with detail link '{full_url}' already exists")
     # Random delay between 5 and 15 seconds
     #sleep(random.uniform(15, 25))
-    sleep(600)
+    sleep(6  )
 
 
 

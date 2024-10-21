@@ -1,42 +1,32 @@
 # Use an official Python runtime as a parent image
-FROM python:3.9-buster
-
-# Install necessary dependencies
-USER root
-RUN apt-get update && apt-get install -y \
-	build-essential \
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/*
-
-# Create a non-root user and switch to it
-RUN useradd -m myuser
+FROM python:3.9-slim
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file into the container at /home/myuser/app
-COPY --chown=myuser:myuser requirements.txt .
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-# Switch to root to create a virtual environment and install dependencies
-USER root
+# Install any needed packages specified in requirements.txt
 RUN python -m venv venv && \
-	pip install --no-cache-dir -r requirements.txt
+    . venv/bin/activate && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Change ownership of the virtual environment to the non-root user
-RUN chown -R myuser:myuser venv
+# Create a non-root user and group
+RUN groupadd -r myuser && useradd -r -g myuser myuser
 
-# Switch back to the non-root user
+# Change ownership of the application directory to the non-root user
+RUN chown -R myuser:myuser /app
+
+# Switch to the non-root user
 USER myuser
-
-# Copy the rest of the application code into the container at /home/myuser/app
-COPY --chown=myuser:myuser . .
 
 # Expose port 8080
 EXPOSE 8080
 
 # Define environment variable
-ENV VIRTUAL_ENV=venv
+ENV VIRTUAL_ENV=/app/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Run the application
-CMD ["python", "scrap.py"]
+CMD ["python3", "main.py"]
