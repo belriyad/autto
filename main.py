@@ -8,7 +8,7 @@ from time import sleep, time
 import pip._vendor.requests as requests
 from bs4 import BeautifulSoup
 from run import main
-from fix import main2
+from fix2 import main2
 import time
 
 
@@ -58,7 +58,7 @@ for link in soup.find_all('a'):
             try:
                 
                 row = main2(full_url)
-                sleep(5) 
+                #sleep(5) 
                 if row is not None:
                     sheet.append_row(row)
                 # Pause execution for a short time to avoid overwhelming the server

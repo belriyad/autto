@@ -47,7 +47,7 @@ def main2(full_url):
     driver.get(full_url)
 
     # Wait for the page to load
-    sleep(5)
+    #sleep(5)
 
     # Scrape the property price
     price = driver.find_element(By.CSS_SELECTOR, ".statsValue").text
